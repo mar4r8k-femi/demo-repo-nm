@@ -2,6 +2,6 @@
   "name": "Node.js",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
   "postCreateCommand": "npm install",
-  "postStartCommand": "npm run dev",
+  "postStartCommand": "nohup npm run dev > dev-server.log 2>&1 &",
    "forwardPorts": [3000]
 }

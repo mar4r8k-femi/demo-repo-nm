@@ -1,5 +1,223 @@
 {
-  "name": "Node.js",
+  "name": "Node.js Enhanced Development Environment",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
-  "postCreateCommand": "npm install"
+  "postCreateCommand": "npm install",
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Layout & Window Management
+        "alefragnani.project-manager",
+        "ms-vscode.vscode-json",
+        "gruntfuggly.todo-tree",
+        "aaron-bond.better-comments",
+        
+        // Terminal & Task Management
+        "formulahendry.terminal-manager",
+        "ms-vscode.powershell",
+        "christian-kohler.npm-intellisense",
+        
+        // Multi-cursor & Text Manipulation
+        "sleistner.vscode-fileutils",
+        "ms-vscode.multi-cursor-modifier",
+        "wmaurer.change-case",
+        
+        // Code Navigation & Layout
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        
+        // File Explorer Enhancements
+        "vscode-icons-team.vscode-icons",
+        "ms-vscode.vscode-json",
+        "ritwickdey.LiveServer",
+        
+        // Split View & Layout Control
+        "ms-vscode.vscode-json",
+        "ms-vscode-remote.remote-containers",
+        
+        // Advanced Terminal Features
+        "ms-vscode.vscode-json",
+        "formulahendry.code-runner",
+        
+        // Productivity & Automation
+        "ms-vscode.vscode-json",
+        "ms-vscode.references-view",
+        "ms-vscode.vscode-json"
+      ],
+      
+      "settings": {
+        // Terminal Configuration - Creates multiple terminals on startup
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+          },
+          "zsh": {
+            "path": "zsh",
+            "icon": "terminal"
+          },
+          "npm-scripts": {
+            "path": "bash",
+            "args": ["-c", "npm run --silent"],
+            "icon": "package"
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.tabs.enabled": true,
+        "terminal.integrated.tabs.showActions": "always",
+        
+        // Layout & Editor Configuration
+        "workbench.editor.enablePreview": false,
+        "workbench.editor.limit.enabled": true,
+        "workbench.editor.limit.value": 10,
+        "workbench.startupEditor": "none",
+        "workbench.panel.defaultLocation": "right",
+        "workbench.sideBar.location": "left",
+        
+        // Split Editor Configuration
+        "workbench.editor.openPositioning": "right",
+        "workbench.editor.revealIfOpen": true,
+        
+        // File Explorer
+        "explorer.confirmDelete": false,
+        "explorer.confirmDragAndDrop": false,
+        "explorer.openEditors.visible": 10,
+        "explorer.autoReveal": true,
+        
+        // Code Formatting
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        
+        // Multi-cursor settings
+        "editor.multiCursorModifier": "ctrlCmd",
+        "editor.snippetSuggestions": "top",
+        
+        // Integrated terminal behavior
+        "terminal.integrated.scrollback": 10000,
+        "terminal.integrated.copyOnSelection": true,
+        "terminal.integrated.rightClickBehavior": "paste"
+      },
+      
+      "keybindings": [
+        // Custom keybindings for layout manipulation
+        {
+          "key": "ctrl+alt+t",
+          "command": "workbench.action.terminal.new"
+        },
+        {
+          "key": "ctrl+alt+s",
+          "command": "workbench.action.splitEditor"
+        },
+        {
+          "key": "ctrl+alt+w",
+          "command": "workbench.action.joinTwoGroups"
+        },
+        {
+          "key": "ctrl+alt+1",
+          "command": "workbench.action.focusFirstEditorGroup"
+        },
+        {
+          "key": "ctrl+alt+2",
+          "command": "workbench.action.focusSecondEditorGroup"
+        },
+        {
+          "key": "ctrl+alt+p",
+          "command": "workbench.action.togglePanel"
+        },
+        {
+          "key": "ctrl+alt+b",
+          "command": "workbench.action.toggleSidebarVisibility"
+        }
+      ],
+      
+      "tasks": [
+        // Predefined tasks that can open multiple terminals
+        {
+          "label": "Setup Development Environment",
+          "type": "shell",
+          "command": "echo 'Setting up development environment...'",
+          "group": "build",
+          "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "new",
+            "showReuseMessage": false,
+            "clear": true
+          },
+          "dependsOrder": "sequence",
+          "dependsOn": [
+            "Install Dependencies",
+            "Start Dev Server",
+            "Open Logs Terminal"
+          ]
+        },
+        {
+          "label": "Install Dependencies",
+          "type": "shell",
+          "command": "npm install",
+          "group": "build",
+          "presentation": {
+            "panel": "new"
+          }
+        },
+        {
+          "label": "Start Dev Server",
+          "type": "shell",
+          "command": "npm run dev",
+          "group": "build",
+          "presentation": {
+            "panel": "new"
+          },
+          "isBackground": true
+        },
+        {
+          "label": "Open Logs Terminal",
+          "type": "shell",
+          "command": "echo 'Logs terminal ready...' && bash",
+          "group": "build",
+          "presentation": {
+            "panel": "new"
+          }
+        }
+      ]
+    }
+  },
+  
+  // Additional container features
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
+  
+  // Port forwarding
+  "forwardPorts": [3000, 5173, 8080],
+  "portsAttributes": {
+    "3000": {
+      "label": "Development Server",
+      "onAutoForward": "openPreview"
+    }
+  },
+  
+  // Post-attach commands to set up the environment
+  "postAttachCommand": {
+    "setup-terminals": "echo 'Container is ready! 🚀' && echo 'Available commands: npm run dev, npm test, npm run build'"
+  },
+  
+  // Mount local workspace
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ],
+  
+  // Container user
+  "remoteUser": "node",
+  "workspaceFolder": "/workspace"
 }
